@@ -2,7 +2,7 @@
 
 import sys
 import threading
-
+import numpy
 
 def compute_height(n, parents):
     # Write this function
@@ -27,3 +27,5 @@ sys.setrecursionlimit(10**7)
 threading.stack_size(2**27)  
 threading.Thread(target=main).start()
 main()
+
+print(numpy.array([1,2,3]))
