@@ -15,7 +15,7 @@ def compute_height(n, parents):
         else:
             depth[i] = depth[parents[i]] + 1
 
-return max(depth)
+    return max(depth)
 
 
 def main():
