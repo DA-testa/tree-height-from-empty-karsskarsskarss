@@ -2,30 +2,38 @@
 
 import sys
 import threading
-import numpy
+import numpy as np
 
 def compute_height(n, parents):
     # Write this function
-    depth = [0] * n
+    tree = [[] for _ in range(n)]
+    root = 0
+    
     # max_height = 0
     for i in range(n):
-        if parents[i] == -1:
-            depth[i] = 1
+        parent = parents[i]
+        if parent == -1:
+            root = 1
         else:
-            depth[i] = depth[parents[i]] + 1
+            tree[parent].append(i)
 
-    return max(depth)
-#creed3
+   # return max(depth)
+
+    def height(node):
+        if not tree[node]:
+            return 1
+        return 1 + max(height(child)for child in tree[node])
+    return height (root) 
 
 def main():
-    n = int(input())
-    parents = list(map(int, input().split()))
-    height = compute_height(n, parents)
-    print(height)
+    n = int(input().strip())
+    parents = list(map(int, input().strip().split()))
+    height = compute_height(n, parents)#koka augstumu
+    print(height)#izvada rez
 
 sys.setrecursionlimit(10**7)  
 threading.stack_size(2**27)  
 threading.Thread(target=main).start()
-main()
+#main()
 
-print(numpy.array([1,2,3]))
+#print(numpy.array([1,2,3]))
