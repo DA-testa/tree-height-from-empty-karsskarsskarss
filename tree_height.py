@@ -1,58 +1,38 @@
-# python3
 
 import sys
 import threading
-import numpy as np
+import numpy
 
 def compute_height(n, parents):
     # Write this function
-    tree = [[] for _ in range(n)]
-    root = 0
-    
-    # max_height = 0
-    for i in range(n):
-        parent = parents[i]
-        if parent == -1:
-            root = 1
-        else:
-            tree[parent].append(i)
+    max_height = 0
+    for x in range(n):
+        dzilums = 0
+        id = x
+        while id != -1:
+            dzilums = dzilums + 1
+            id = parents[id]
+        max_height = max(max_height, dzilums)
 
-   # return max(depth)
-
-    def height(node):
-        if not tree[node]:
-            return 1
-        return 1 + max(height(child)for child in tree[node])
-    return height (root) 
+    return max_height
 
 def main():
-    input_type = input("Input type (K for keyboard, F for file): ").strip().upper()
+    text = str(input())
+    if "I" in text:
+        skaits = int(input())
+        dati = list(map(int, input().split()))
+        print(compute_height(skaits, dati))
 
-    if input_type == "K":
-        n = int(input("Enter number of nodes: ").strip())
-        parents = list(map(int, input("Enter parent indices separated by spaces: ").strip().split()))
-    elif input_type == "F":
-        file_name = input("Enter file name: ").strip()
-        if 'a' in file_name:
-            print("Invalid file name. Please enter a different file name.")
-            return
-        try:
-            with open(f"folder/{file_name}") as f:
-                n = int(f.readline().strip())
-                parents = list(map(int, f.readline().strip().split()))
-        except FileNotFoundError:
-            print("File not found. Please enter a valid file name.")
-            return
-    else:
-        print("Invalid input type. Please enter K or F.")
-        return
+    if "F" in text:
+        name = str(input())
+        name = "test/" + str(name)
+        file = open(name,'r')
+        skaits = int(file.readline())
+        dati = list(map(int, file.readline().split()))
+        file.close()
+        print(compute_height(skaits, dati))
 
-    height = compute_height(n, parents)
-    print(height)
 
-sys.setrecursionlimit(10**7)  
-threading.stack_size(2**27)  
+sys.setrecursionlimit(10**7)
+threading.stack_size(2**27)
 threading.Thread(target=main).start()
-#main()
-
-
