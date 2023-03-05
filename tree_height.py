@@ -1,38 +1,45 @@
-
 import sys
-import threading
-import numpy
 
 def compute_height(n, parents):
-    # Write this function
+    height = [0] * n
     max_height = 0
-    for x in range(n):
-        dzilums = 0
-        id = x
-        while id != -1:
-            dzilums = dzilums + 1
-            id = parents[id]
-        max_height = max(max_height, dzilums)
-
+    
+    for i in range(n):
+        if height[i] == 0:
+            node = i
+            depth = 0
+            while node != -1:
+                if height[node] != 0:
+                    depth += height[node]
+                    break
+                depth += 1
+                node = parents[node]
+            max_height = max(max_height, depth)
+            node = i
+            while node != -1:
+                if height[node] != 0:
+                    break
+                height[node] = depth
+                depth -= 1
+                node = parents[node]
+    
     return max_height
 
 def main():
-    text = str(input())
-    if "I" in text:
-        skaits = int(input())
-        dati = list(map(int, input().split()))
-        print(compute_height(skaits, dati))
+    text = input().strip()
+    if text == "I":
+        n = int(input())
+        parents = list(map(int, input().split()))
+    elif text == "F":
+        filename = input().strip()
+        with open(f"test/{filename}", "r") as f:
+            n = int(f.readline())
+            parents = list(map(int, f.readline().split()))
+    else:
+        print("Invalid input format.")
+        return
+    print(compute_height(n, parents))
 
-    if "F" in text:
-        name = str(input())
-        name = "test/" + str(name)
-        file = open(name,'r')
-        skaits = int(file.readline())
-        dati = list(map(int, file.readline().split()))
-        file.close()
-        print(compute_height(skaits, dati))
-
-
-sys.setrecursionlimit(10**7)
-threading.stack_size(2**27)
-threading.Thread(target=main).start()
+if __name__ == "__main__":
+    sys.setrecursionlimit(10**7)
+    main()
