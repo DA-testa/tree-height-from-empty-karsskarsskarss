@@ -1,3 +1,4 @@
+#Artūrs Jānis Karss IT 1. grupa
 import sys
 
 def compute_height(n, parents):
