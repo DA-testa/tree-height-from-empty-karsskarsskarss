@@ -31,9 +31,12 @@ def main():
     height = compute_height(n, parents)#koka augstumu
     print(height)#izvada rez
 
+    my_array = np.array([1, 2, 3])
+    print(my_array)
+
 sys.setrecursionlimit(10**7)  
 threading.stack_size(2**27)  
 threading.Thread(target=main).start()
 #main()
 
-#print(numpy.array([1,2,3]))
+
