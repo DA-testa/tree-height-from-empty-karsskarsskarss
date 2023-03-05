@@ -1,33 +1,46 @@
-# python3
-
+#Artūrs Jānis Karss IT 1. grupa
 import sys
-import threading
-import numpy
-
 
 def compute_height(n, parents):
-    # Write this function
+    height = [0] * n
     max_height = 0
-    # Your code here
+    
+    for i in range(n):
+        if height[i] == 0:
+            node = i
+            depth = 0
+            while node != -1:
+                if height[node] != 0:
+                    depth += height[node]
+                    break
+                depth += 1
+                node = parents[node]
+            max_height = max(max_height, depth)
+            node = i
+            while node != -1:
+                if height[node] != 0:
+                    break
+                height[node] = depth
+                depth -= 1
+                node = parents[node]
+    
     return max_height
 
-
 def main():
-    # implement input form keyboard and from files
-    
-    # let user input file name to use, don't allow file names with letter a
-    # account for github input inprecision
-    
-    # input number of elements
-    # input values in one variable, separate with space, split these values in an array
-    # call the function and output it's result
-    pass
+    text = input().strip()
+    if text == "I":
+        n = int(input())
+        parents = list(map(int, input().split()))
+    elif text == "F":
+        filename = input().strip()
+        with open(f"test/{filename}", "r") as f:
+            n = int(f.readline())
+            parents = list(map(int, f.readline().split()))
+    else:
+        print("Invalid input format.")
+        return
+    print(compute_height(n, parents))
 
-# In Python, the default limit on recursion depth is rather low,
-# so raise it here for this problem. Note that to take advantage
-# of bigger stack, we have to launch the computation in a new thread.
-sys.setrecursionlimit(10**7)  # max depth of recursion
-threading.stack_size(2**27)   # new thread will get stack of such size
-threading.Thread(target=main).start()
-main()
-# print(numpy.array([1,2,3]))
+if __name__ == "__main__":
+    sys.setrecursionlimit(10**7)
+    main()
